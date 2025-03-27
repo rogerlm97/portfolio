@@ -1,0 +1,44 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "RogerLM"
+  favicon: "images/favicon.png"
+  page-footer:
+    center: |
+      [Contact Me](roger.lopez@ibb.scis.es.com)
+    left: |
+      Made with [Quarto](https://quarto.org/)
+    right: |
+      [Github Code Repo](https://github.com/rogerlm97)
+    background: "#636363"
+  search: 
+    location: navbar
+    type: overlay
+  navbar:
+    right:
+      - href: https:/rogerlm97.github.io/
+        text: Home
+      - href: publications/publications.qmd
+        text: Publications
+      - href: interests/interests.qmd
+        text: My interests
+      - href: galleries/index.qmd
+        text: Gallery
+      - icon: github
+        href: https://github.com/rogerlm97
+      - icon: envelope-fill
+        href: mailto:///roger.lopez@ibb.csic.es
+  
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+
