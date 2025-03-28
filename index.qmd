@@ -1,7 +1,28 @@
 ---
-title: "portfolio"
+title: "Roger López-Mañas"
+subtitle: "Environmental scientist. Geoinformatician"
+image: images/profile.jpg
+about:
+  template: jolla
+  image-width: 15em
+  image-shape: round
+---
+<!-- Links to Social Profiles -->
+[[Welcome to my digital portfolio!]{.dim-text} 
+
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0001--5920--0873-green)](https://orcid.org/0000-0001-5920-0873)
+[![Google Scholar](https://img.shields.io/badge/Google_Scholar-Profile-blue)](https://scholar.google.com/citations?user=jZBbNIAAAAAJ&hl=ca&oi=ao)
+[![ResearchGate](https://img.shields.io/badge/ResearchGate-Profile-lightblue)](https://www.researchgate.net/profile/Roger-Lopez-Manas?ev=hdr_xprf)
+[![Email](https://img.shields.io/badge/Email-roger.lopez@ibb.csic.es-red)](mailto:roger.lopez@ibb.csic.es)
+]
+
 ---
 
-This is a Quarto website.
+## About Me  
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+I am an **Environmental Scientist and Remote Sensing specialist (Ph.D.)**. I am a PhD student at the **[Phylomigration Lab](https://www.phylomigrationlab.com/)** at the **[Barcelona Botanical Institute (IBB)](https://www.ibb.csic.es/ca/institut_/)**.  
+
+My interests involve the use of **satellite remote sensing data** to track Earth's ecological processes, ranging from **Land Cover change** to **tracking migratory insects**.  
+
+Despite working with data acquired **hundreds of kilometers above us**, I love to step firmly on the ground, observing and monitoring biodiversity. Whether for planning research projects or enjoying a **birdwatching session**, feel free to **[contact me](mailto:roger.lopez@ibb.csic.es)**! 😊
+---
