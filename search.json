@@ -1,0 +1,100 @@
+[
+  {
+    "objectID": "publications/publications.html",
+    "href": "publications/publications.html",
+    "title": "\nPublications\n",
+    "section": "",
+    "text": "Publications\n\n\n\n\n📅 2024\n\n\n\nPollen metabarcoding reveals the origin and multigenerational migratory pathway of an intercontinental-scale butterfly outbreak\nAuthors: Gorki, J. L.*, López-Mañas, R.*, Sáez, L., Menchetti, M., Shapoval, N., Andersen, A., Benyamini, D., Daniels, S., García-Berro, A., Reich, M. S., Scalercio, S., Toro-Delgado, E., Bataille, C. P., Domingo-Marimon, C., Vila, R., Suchan, T., & Talavera, G.  Journal: Current Biology.\nhttps://doi.org/10.1016/j.cub.2024.05.037\n\n\n\n\nA hydrogen isoscape for tracing the migration of herbivorous lepidopterans across the Afro-Palearctic range.\nAuthors: Ghouri, S., Reich, M. S., Lopez-Mañas, R., Talavera, G., Bowen, G. J., Vila, R., Talla, V. N. K., Collins, S. C., Martins, D. J., & Bataille, C. P.\nJournal: Rapid Communications in Mass Spectrometry\nhttps://doi.org/10.1002/rcm.9675\n\n\n\n📅 2023\n\n\n\n\nThe Afrotropical breeding grounds of the Palearctic-African migratory painted lady butterflies\nAuthors: Talavera, G., García-Berro, A., Talla, V. N. K., Ng’iru, I., Bahleman, F., Kébé, K., Nzala, K. M., Plasencia, D., Marafi, M. A. J., Kassie, A., Goudégnon, E. O. A., Kiki, M., Benyamini, D., Reich, M. S., López-Mañas, R., Benetello, F., Collins, S. C., Bataille, C. P., Pierce, N. E., D.J. Martins, T. Suchan, M. Menchetti & Vila, R.\nJournal: Proceedings of the National Academy of Sciences.\nhttps://doi.org/10.1073/pnas.2121249119\n\n\n\n\n📅 2022\n\n\n\n\nErratic spatiotemporal vegetation growth anomalies drive population outbreaks in a trans-Saharan insect migrant\nAuthors: López-Mañas, R.*, Pascual-Díaz, J. P.*, García-Berro, A., Bahleman, F., Reich, M. S., Pokorny, L., Bataille, C. P., Vila, R., Domingo-Marimon, C., & Talavera, G.\nJournal: Proceedings of the National Academy of Sciences\nhttps://doi.org/10.1073/pnas.2121249119"
+  },
+  {
+    "objectID": "projects/MODIS_filter/MODIS.html",
+    "href": "projects/MODIS_filter/MODIS.html",
+    "title": "MODIS Cloud masking pipeline",
+    "section": "",
+    "text": "Clouds are the main enemy in Earth Observation form space, specifically in the visible and infrared spectrum. In tropical latitudes, clouds can block the surface vision from Remote Sensing satellites during whole seasons, making the use of imagery useless. As blowing away the clouds of a whole continent would be a bit of an extreme solution, It is important to automatically flag all pixels contaminated by clouds to inform about the low quality of image and raise caution when using them for analysis.\nYou can access the code in GitHub Here."
+  },
+  {
+    "objectID": "projects/MODIS_filter/MODIS.html#how-does-it-work",
+    "href": "projects/MODIS_filter/MODIS.html#how-does-it-work",
+    "title": "MODIS Cloud masking pipeline",
+    "section": "How does it work?",
+    "text": "How does it work?\nFist of all, we will translate the atmospheric metadata, which is stored in binary format in the State QA band. Binary values must be transformed to decimal to read each flag. To do so, we will use the intToBits function:\n#Turn decimal to binary and separate values by row\nState_bin = matrix(as.integer(intToBits(State_int)),nrow=max(State_int),byrow=T)[,1:16]\ncolnames(State_bin) = paste0(\"bit_\",c(paste0(\"0\",0:9),10:15))\nAfter translating the bits, we assign indicated bits in the product documentation to the correspondent atmospheric state:\n#bit 0-1 cloud state\ncloud = State_bin[which(State_bin[,1]==0 & State_bin[,2]==1),]\nclear = State_bin[which(State_bin[,1]==0 & State_bin[,2]==0),]\nmixed = State_bin[which(State_bin[,1]==1 & State_bin[,2]==0),]\nnot_set_assumed_clear = State_bin[which(State_bin[,1]==1 & State_bin[,2]==1),]\n#bit 2 cloud shadow\ncloud_shadow = State_bin[which(State_bin[,3]==1),]\nLater, a mask is built including the values the user wants to mask out.\ninteger_mask = unique(c(integer_average_aerosol,\n                        integer_high_aerosol,\n                        integer_average_cirrus,\n                        integer_small_cirrus,\n                        integer_high_cirrus,\n                        integer_cloud,\n                        integer_mixed,\n                        integer_cloud_shadow,\n                        integer_fire,\n                        integer_snow,\n                        integer_snow_ice))\nThe stored values are evaluated with the raster image, masking out the selected flags.\nfor (r in rasters){\n  ras_to_mask=raster(r)\n  values_to_mask = unique(values(ras_to_mask))[which(unique(values(ras_to_mask)) %in% integer_mask ==T)]\n  for (i in values_to_mask){\n    ras_to_mask = reclassify(ras_to_mask,c(i,i+1,NA))\n    #cat(i,\"\\n\")\n  }\nAnd the final raster can be saved and used for analysis.\nNotice the ability of the the source product algorithm to distinguish between snow and clouds.\n\n\n\nMasked Clouds"
+  },
+  {
+    "objectID": "projects/MODIS_filter/MODIS.html#final-thoughts",
+    "href": "projects/MODIS_filter/MODIS.html#final-thoughts",
+    "title": "MODIS Cloud masking pipeline",
+    "section": "Final thoughts",
+    "text": "Final thoughts\nSatellite remote sensing provides a massive way for earth observation, spatial and temporal analysis. Development of algorithms, platforms and Software dedicated to the use of this frameworks has largely enriched its possibilities. Nevertheless, the user still has to process data in the proper way to avoid getting to flawed conclusions. The process can be challenging, although the huge GeoSpatial community, mainly working in OpenSource, is of great value when struggling with data processing."
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Projects I am proud of and think you can take advantage from 🤓 Data visualization, GitHub repos and more 🛰️💭\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMODIS Cloud masking pipeline\n\n\n\n\n\nStright-forward code to mask clouds in MODIS images\n\n\n\n\n\nFeb 15, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nVegetation activity & anomaly explorer\n\n\n\n\n\nDeveloping user-friendly open source data explorer to check global vegetation based on Satellite Remote Sensing\n\n\n\n\n\nJan 10, 2025\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "gallery/index.html",
+    "href": "gallery/index.html",
+    "title": "Photo Gallery 📸",
+    "section": "",
+    "text": "Photo Gallery 📸\nHere you can check what my eyes have seen through my journey. From fieldwork in remote places, long coding sessions and data visualization outputs.\n\n\n\n\n\n\n\n\nFieldwork in Saharan desert.\n\n\n\n\n\nMacroglossum stellatarum.\n\n\n\n\n\nFieldwork in archipielago toscano.\n\n\n\n\n\nPresenting my work at European Geospatial Sciences.\n\n\n\n\n\nMacrosglossum stellatarum egg (After hours of fieldwork in muddy gardens!).\n\n\n\n\n\nThe african queen (Danaus chrysippus).\n\n\n\n\n\nWind trajectories for migration analysis.\n\n\n\n\n\nFirst plots in ENVI software, so much time ago!\n\n\n\n\n\nUsing Google Earth Engine to explore vegetation anomalies.\n\n\n\n\n\nUsing Google Earth Engine to explore vegetation anomalies.\n\n\n\n\n\nExpected vegetation phenological curve\n\n\n\n\n\nExpected vegetation phenological curve. Anomalies detected!\n\n\n\n\n\nCapturing insects at night.\n\n\n\n\n\nFieldwork in archipielago toscano.\n\n\n\n\n\nSummer and winter habitats.\n\n\n\n\n\nStuding habitat seasonal distribution and vegetation productivity.\n\n\n\n\n\nVegetation anomaly.\n\n\n\n\n\nJust before setting the mothtrap.\n\n\n\n\n\nHabitat hotspot.\n\n\n\n\n\nSubject is We.\n\n\n\n\n\nThe Vagrant emperor, a trans-Saharan migratory dragonfly.\n\n\n\n\n\nTrying to capture the sunset.\n\n\n\n\n\nEcological radar data analysis.\n\n\n\n\n\nKnowledge is more powerful than bullets.\n\n\n\n\n\nIt’s Migration o’clock! (Vanessa cardui)"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Roger López-Mañas",
+    "section": "",
+    "text": "🛰️ Welcome to my digital portfolio! 🦋"
+  },
+  {
+    "objectID": "index.html#about-me",
+    "href": "index.html#about-me",
+    "title": "Roger López-Mañas",
+    "section": "About Me",
+    "text": "About Me\nI am a PhD student at the Phylomigration Lab at the Barcelona Botanical Institute (IBB). My interests involve the use of satellite remote sensing data to track Earth’s ecological processes, ranging from Land Cover change to tracking migratory insects. Despite working with data acquired hundreds of kilometers above us, I love to step firmly on the ground, observing and monitoring biodiversity. Whether it’s for planning exciting research projects or simply enjoying a birdwatching session, feel free to reach out!"
+  },
+  {
+    "objectID": "projects/GEE/GEE.html",
+    "href": "projects/GEE/GEE.html",
+    "title": "Vegetation activity & anomaly explorer",
+    "section": "",
+    "text": "Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable areas hosting available resources. But, Where do they go?\nThis is a main question leading the work of many naturalists and biologists, and wonderful research has been conducted following biodiversity moves, looking for the multiple cues that help us disentangle the ecological cues of animal movement.\nHere, I want to present my latest contribution to this field: The Vegetation Anomaly Viewer. Based on previous research, I developed an Eath Engine App accessible to the public, useful to:"
+  },
+  {
+    "objectID": "projects/GEE/GEE.html#how-does-it-work",
+    "href": "projects/GEE/GEE.html#how-does-it-work",
+    "title": "Vegetation activity & anomaly explorer",
+    "section": "How does it work?",
+    "text": "How does it work?\nThe App takes advantage of Google Earth Engine huge power for accessing and processing Satellite Imagery:\n\n\n\nVegetaion anlysis.\n\n\nThe pipeline reads the User selections in the Graphic interface (Year, Month, Vegetation Index) and selects the correspondent images from NASA MODIS sensor from Terra and Aqua Satellites. This datasets provide World coverage Normalized Difference Vegetation Index (NDVI), a remote sensing based Index to retrieve the level of photosynthesizing activity of the Earth surface. Once selected, the code applies the anomaly z-score metric and displays the results in the map viewer.\n\n\n\nUser interface.\n\n\nBy clicking at any spot in the map, you can explore the Vegetation Index value through the whole time-series. By doing so, you can explore the seasonal rhythm of each habitat, the growth period, senescence begins, possible drought, forest fire, or other perturbations that have affected the surface productivity, and life living on it."
+  },
+  {
+    "objectID": "projects/GEE/GEE.html#what-can-i-use-it-for",
+    "href": "projects/GEE/GEE.html#what-can-i-use-it-for",
+    "title": "Vegetation activity & anomaly explorer",
+    "section": "What can I use it for?",
+    "text": "What can I use it for?\nGood point. Let’s get back to the main question. Where do animals move to?\nAs you might figure, food is one of the main reasons animals displace large distances. Vegetation resources are a key element for many herbivores, but also for carnivores feeding on them. While movements are timed to Earth rotation and solar incidence, regional disturbances can alter the seasonal average vegetation production, causing either a resource decay or a surplus, and cascading to animal biodiversity abundance with population bottlenecks or outbreaks."
+  },
+  {
+    "objectID": "projects/GEE/GEE.html#final-thoughts",
+    "href": "projects/GEE/GEE.html#final-thoughts",
+    "title": "Vegetation activity & anomaly explorer",
+    "section": "Final Thoughts",
+    "text": "Final Thoughts\nWow! What started as a straightforward analysis to explore the Painted Lady butterfly (Vanessa cardui )migration, ended up in a nice App usable by everyone to keep track of Earth Primary Productiviy. I have used it myself during fieldwork, to select places to visit based on the Vegetation activity and seasonal anomaly. Although probably I have been the main user, i would love to know about your experience. Did you like it? What further options would you add?"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "\nParticipation in funded projects\n",
+    "section": "",
+    "text": "Participation in funded projects\n\n\n\n\n📅 2024\n\n\n\nGenomic and epigenomic signatures of migration in butterflies (MIGRASPHERE)\nPI: Gerard Talavera\nFunding: 242.500 €\nDuration: 01/09/2024 - 31/8/2027\nReference: Proyectos de I+D+i (PID2023-152239NB-I00)\nFunding entity: Ministerio de Ciencia, Innovación y universidades\n\n\n\n\nTaxonomic and molecular characterization of Lepidoptera, Odonata, and their trans-Saharan migratory species in two protected areas of the African Sahel\nPI: Gerard Talavera\nFunding: 24.000 €\nDuration: 01/01/2024 - 31/12/2025\nReference: COOPB23061\nFunding entity: CSIC\n\n\n\n📅 2021\n\n\n\n\nWater-ForCE - Water scenarios For Copernicus Exploitation\nPI: Tiit Kutser (University of Tartu - Estonia) - Lluís Pesquer (Subp. CREAF)\nDuration: 2021 - 2023\nReference: H2020-LC-SPACE-24-EO-2020-101004186\nFunding entity: European Comission\n\n\n\n\nAn interdisciplinary scheme to advance in the field of ecology and evolution of insect migration (LINKA20399)\nPI: Gerard Talavera\nFunding: 24.000 €\nDuration: 2021 - 2023\nReference: LINKA20399\nFunding entity: CSIC\n\n\n\n\nBehavioral and ecological genomics of insect migration (ENTOMIGROME)\nPI: Gerard Talavera\nFunding: 196.000 €\nDuration: 1/09/2021 - 31/08/2024\nReference: Proyectos de I+D+i (PID2020-117739GA-I00)\n\n\n\n\n📅 2020\n\n\n\n\nEOTiST - Earth Observation Training in Science and Technology at the Space Research Centre of the Polish Academy of Sciences\nPI: Edyta Wozniak (CBK PAN) - Lluís Pesquer (Subp. CREAF)\nDuration: 2020-2023\nReference: H2020-WIDESPREAD-2020-5\nFunding entity: European Commission\n\n\n\n\n📅 2019\n\n\n\n\nPhenotype-genotype associations for migratory behavior in insects: combining isotope geolocation and next-generation sequencing tools\nPI: Clément Bataille Co-PI: Gerard Talavera\nFunding: 250.000 $\nDuration: 1/9/2019 - 31/8/2023\nReference: NFRE-2018-00738 Funding entity: New Frontiers in Research Fund – Exploration (Government of Canada)"
+  }
+]
