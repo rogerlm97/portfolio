@@ -1,0 +1,151 @@
+---
+title: ""
+engine: knitr
+filters:
+  - lightbox
+  - masonry
+lightbox: auto
+include-in-header: 
+  - text: |
+      <style>
+        .grid-item {
+          width: 160px;
+          height: 120px;
+          float: center;
+          background: #ffffff;
+          border: 2px solid #ffffff;
+          border-color: hsla(0, 0%, 100%, 0.5);
+          border-radius: 5px;
+        }
+        figcaption {
+          display: none; // removes caption but keeps alt text
+          font-size: 8px;
+        }
+        .quarto-figure {
+          margin-bottom: 0px; // removes spacing under images
+        }
+        .grid-item--width2 { width: 320px; }
+        .grid-item--width3 { width: 480px; }
+        .grid-item--width4 { width: 640px; }
+
+        .grid-item--height1 { height: 200px; }
+        .grid-item--height3 { height: 260px; }
+        .grid-item--height4 { height: 360px; }
+      </style>
+---
+
+<!-- https://github.com/quarto-ext/lightbox?tab=readme-ov-file -->
+
+<!-- https://www.cynthiahqy.com/posts/masonry-gallery/ -->
+
+<!-- https://github.com/cynthiahqy/digital-garden -->
+
+# Photo Gallery 📸
+
+Here you can check what my eyes have seen through my journey. From fieldwork in remote places, long coding sessions and data visualization outputs.
+
+::::::::::::::::::::::::::::: column-body-outset
+:::::::::::::::::::::::::::: {.grid data-masonry="{ \"itemSelector\": \".grid-item\", \"gutter\": 0 }"}
+::: {.grid-item .grid-item--height1}
+![Fieldwork in Saharan desert.](images/ombra.jpg){group="gallery" fig-cap="Photo taken in 2023" fig-align="center"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![*Macroglossum stellatarum.*](images/bufaforats.JPG){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Fieldwork in archipielago toscano.](images/giannutri.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Presenting my work at European Geospatial Sciences.](images/egu.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![*Macrosglossum stellatarum* egg (After hours of fieldwork in muddy gardens!).](images/egg.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![The african queen (*Danaus chrysippus*).](images/danaus.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Wind trajectories for migration analysis.](images/winds.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![First plots in ENVI software, so much time ago!](images/my%20beginnings.webp){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Using Google Earth Engine to explore vegetation anomalies.](images/GEE-2.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Using Google Earth Engine to explore vegetation anomalies.](images/GEE.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Expected vegetation phenological curve](images/Nile%20Delta%20flooded%20savanna.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Expected vegetation phenological curve. Anomalies detected!](images/North%20Arabian%20highland%20shrublands.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Capturing insects at night.](images/mothtrap.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Fieldwork in archipielago toscano.](images/giannutri2.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Summer and winter habitats.](images/migration.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Studing habitat seasonal distribution and vegetation productivity.](images/greenWave.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Vegetation anomaly.](images/anomalyMap.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Just before setting the mothtrap.](images/nit.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Habitat hotspot.](images/oued.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Subject is We.](images/setcases.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![The Vagrant emperor, a trans-Saharan migratory dragonfly.](images/hemianax.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Trying to capture the sunset.](images/sunset.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Ecological radar data analysis.](images/birdScan.png){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![Knowledge is more powerful than bullets.](images/bullet.jpg){group="gallery"}
+:::
+
+::: {.grid-item .grid-item--height1}
+![It's Migration o'clock! (*Vanessa cardui*)](images/cardui.jpg){group="gallery"}
+:::
+::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::
+
+------------------------------------------------------------------------

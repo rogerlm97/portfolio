@@ -1,0 +1,65 @@
+<p>
+
+<h1><b>Publications</b></h1>
+
+</p>
+
+<details open>
+
+<summary>📅 <b>2024</b></summary>
+
+<p>
+
+### Pollen metabarcoding reveals the origin and multigenerational migratory pathway of an intercontinental-scale butterfly outbreak
+
+**Authors:** Gorki, J. L.\*, López-Mañas, R.\*, Sáez, L., Menchetti, M., Shapoval, N., Andersen, A., Benyamini, D., Daniels, S., García-Berro, A., Reich, M. S., Scalercio, S., Toro-Delgado, E., Bataille, C. P., Domingo-Marimon, C., Vila, R., Suchan, T., & Talavera, G. <br> **Journal:** *Current Biology*.
+
+<https://doi.org/10.1016/j.cub.2024.05.037>
+
+</p>
+
+<p>
+
+### A hydrogen isoscape for tracing the migration of herbivorous lepidopterans across the Afro-Palearctic range.
+
+**Authors:** Ghouri, S., Reich, M. S., Lopez-Mañas, R., Talavera, G., Bowen, G. J., Vila, R., Talla, V. N. K., Collins, S. C., Martins, D. J., & Bataille, C. P.
+
+**Journal:** *Rapid Communications in Mass Spectrometry*
+
+<https://doi.org/10.1002/rcm.9675>
+
+</details>
+
+<details>
+
+<summary>📅 <b>2023</b></summary>
+
+<p>
+
+### The Afrotropical breeding grounds of the Palearctic-African migratory painted lady butterflies
+
+**Authors:** Talavera, G., García-Berro, A., Talla, V. N. K., Ng’iru, I., Bahleman, F., Kébé, K., Nzala, K. M., Plasencia, D., Marafi, M. A. J., Kassie, A., Goudégnon, E. O. A., Kiki, M., Benyamini, D., Reich, M. S., López-Mañas, R., Benetello, F., Collins, S. C., Bataille, C. P., Pierce, N. E., D.J. Martins, T. Suchan, M. Menchetti & Vila, R.\
+**Journal:** *Proceedings of the National Academy of Sciences.*
+
+<https://doi.org/10.1073/pnas.2121249119>
+
+</p>
+
+</details>
+
+<details>
+
+<summary>📅 <b>2022</b></summary>
+
+<p>
+
+### Erratic spatiotemporal vegetation growth anomalies drive population outbreaks in a trans-Saharan insect migrant
+
+**Authors:** López-Mañas, R.\*, Pascual-Díaz, J. P.\*, García-Berro, A., Bahleman, F., Reich, M. S., Pokorny, L., Bataille, C. P., Vila, R., Domingo-Marimon, C., & Talavera, G.\
+**Journal:** *Proceedings of the National Academy of Sciences*
+
+<https://doi.org/10.1073/pnas.2121249119>
+
+</p>
+
+</details>

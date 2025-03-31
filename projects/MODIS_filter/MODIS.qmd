@@ -1,0 +1,78 @@
+---
+title: "MODIS Cloud masking pipeline"
+description: "Stright-forward code to mask clouds in MODIS images"
+date: "2025-02-15"
+image: ../../gallery/images/cloud.png
+---
+
+::: {.callout-type collapse="false" style="note"}
+Clouds are the main enemy in Earth Observation form space, specifically in the visible and infrared spectrum. In tropical latitudes, clouds can block the surface vision from Remote Sensing satellites during whole seasons, making the use of imagery useless. As blowing away the clouds of a whole continent would be a bit of an extreme solution, It is important to automatically flag all pixels contaminated by clouds to inform about the low quality of image and raise caution when using them for analysis.
+:::
+
+![Saharan dust plume and clouds (12-02-2025).](../../gallery/images/cloud.png){fig-alt="Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable  areas hosting available resources. **But, where do they go?**"}
+
+::: {.callout-type collapse="false" style="note"}
+Earth Observation products come with additional layers identifying about pixels flaws. I developed a straightforward cloud masking pipeline in **R** for **MODIS Surface Reflectance** product MOD09.
+:::
+
+You can access the code in GitHub [Here](https://github.com/rogerlm97/MODIS-tools/blob/main/filter_MOD09_sur_refl_qc.R).
+
+## How does it work?
+
+Fist of all, we will translate the atmospheric metadata, which is stored in binary format in the **State QA** band. Binary values must be transformed to decimal to read each flag. To do so, we will use the intToBits function:
+
+``` r
+#Turn decimal to binary and separate values by row
+State_bin = matrix(as.integer(intToBits(State_int)),nrow=max(State_int),byrow=T)[,1:16]
+colnames(State_bin) = paste0("bit_",c(paste0("0",0:9),10:15))
+```
+
+After translating the bits, we assign indicated bits in the product documentation to the correspondent atmospheric state:
+
+``` r
+#bit 0-1 cloud state
+cloud = State_bin[which(State_bin[,1]==0 & State_bin[,2]==1),]
+clear = State_bin[which(State_bin[,1]==0 & State_bin[,2]==0),]
+mixed = State_bin[which(State_bin[,1]==1 & State_bin[,2]==0),]
+not_set_assumed_clear = State_bin[which(State_bin[,1]==1 & State_bin[,2]==1),]
+#bit 2 cloud shadow
+cloud_shadow = State_bin[which(State_bin[,3]==1),]
+```
+
+Later, a mask is built including the values the user wants to mask out.
+
+``` r
+integer_mask = unique(c(integer_average_aerosol,
+                        integer_high_aerosol,
+                        integer_average_cirrus,
+                        integer_small_cirrus,
+                        integer_high_cirrus,
+                        integer_cloud,
+                        integer_mixed,
+                        integer_cloud_shadow,
+                        integer_fire,
+                        integer_snow,
+                        integer_snow_ice))
+```
+
+The stored values are evaluated with the raster image, masking out the selected flags.
+
+``` r
+for (r in rasters){
+  ras_to_mask=raster(r)
+  values_to_mask = unique(values(ras_to_mask))[which(unique(values(ras_to_mask)) %in% integer_mask ==T)]
+  for (i in values_to_mask){
+    ras_to_mask = reclassify(ras_to_mask,c(i,i+1,NA))
+    #cat(i,"\n")
+  }
+```
+
+And the final *raster* can be saved and used for analysis.
+
+[*Notice the ability of the the source product algorithm to distinguish between snow and clouds.*]{.underline}
+
+![Masked Clouds](/gallery/images\cloud_mask.png)
+
+## Final thoughts
+
+Satellite remote sensing provides a massive way for earth observation, spatial and temporal analysis. Development of algorithms, platforms and Software dedicated to the use of this frameworks has largely enriched its possibilities. Nevertheless, the user still has to process data in the proper way to avoid getting to flawed conclusions. The process can be challenging, although the huge GeoSpatial community, mainly working in OpenSource, is of great value when struggling with data processing.

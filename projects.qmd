@@ -1,0 +1,106 @@
+<p>
+
+<h1><b>Participation in funded projects</b></h1>
+
+</p>
+
+<details open>
+
+<summary>📅 <b>2024</b></summary>
+
+<p>
+
+### Genomic and epigenomic signatures of migration in butterflies (MIGRASPHERE)
+
+| **PI:** Gerard Talavera
+| **Funding:** 242.500 €
+| **Duration:** 01/09/2024 - 31/8/2027
+| **Reference:** Proyectos de I+D+i (PID2023-152239NB-I00)
+| **Funding entity:** Ministerio de Ciencia, Innovación y universidades
+
+</p>
+
+<p>
+
+### Taxonomic and molecular characterization of Lepidoptera, Odonata, and their trans-Saharan migratory species in two protected areas of the African Sahel
+
+| **PI:** Gerard Talavera 
+| **Funding:** 24.000 € 
+| **Duration:** 01/01/2024 - 31/12/2025 
+| **Reference:** COOPB23061 
+| **Funding entity:** CSIC
+
+</details>
+
+<details>
+
+<summary>📅 <b>2021</b></summary>
+
+<p>
+
+### Water-ForCE - Water scenarios For Copernicus Exploitation
+
+| **PI:** Tiit Kutser (University of Tartu - Estonia) - Lluís Pesquer (Subp. CREAF)
+| **Duration:** 2021 - 2023
+| **Reference:** H2020-LC-SPACE-24-EO-2020-101004186
+| **Funding entity:** European Comission
+
+</p>
+
+<p>
+
+### An interdisciplinary scheme to advance in the field of ecology and evolution of insect migration (LINKA20399)
+
+| **PI:** Gerard Talavera
+| **Funding:** 24.000 € 
+| **Duration:** 2021 - 2023
+| **Reference:** LINKA20399
+| **Funding entity:** CSIC
+
+</p>
+
+<p>
+
+### Behavioral and ecological genomics of insect migration (ENTOMIGROME)
+
+| **PI:** Gerard Talavera
+| **Funding:** 196.000 € 
+| **Duration:** 1/09/2021 - 31/08/2024 
+| **Reference:** Proyectos de I+D+i (PID2020-117739GA-I00)
+
+</p>
+
+</details>
+
+<details>
+
+<summary>📅 <b>2020</b></summary>
+
+<p>
+
+### EOTiST - Earth Observation Training in Science and Technology at the Space Research Centre of the Polish Academy of Sciences
+
+| **PI:** Edyta Wozniak (CBK PAN) - Lluís Pesquer (Subp. CREAF) 
+| **Duration:** 2020-2023 
+| **Reference:** H2020-WIDESPREAD-2020-5 
+| **Funding entity:** European Commission
+| </p>
+
+</details>
+
+<details>
+
+<summary>📅 <b>2019</b></summary>
+
+<p>
+
+### Phenotype-genotype associations for migratory behavior in insects: combining isotope geolocation and next-generation sequencing tools 
+
+| **PI:** Clément Bataille Co-PI: Gerard Talavera 
+| **Funding:** 250.000 \$ 
+| **Duration:** 1/9/2019 - 31/8/2023 
+| **Reference:** NFRE-2018-00738 Funding entity: New Frontiers in Research Fund – Exploration (Government of Canada)
+
+</p>
+
+</details>

@@ -3,42 +3,51 @@ project:
   output-dir: docs
 
 website:
-  title: "RogerLM"
-  favicon: "images/favicon.png"
+  title: "Roger López-Mañas"
+  site-url: "https://rogerlm97.github.io/portfolio"
+  favicon: "gallery/images/favicon.png"
   page-footer:
     center: |
-      [Contact Me](roger.lopez@ibb.scis.es.com)
+      [Contact Me](roger.lopez@ibb.csic.es.com)
     left: |
       Made with [Quarto](https://quarto.org/)
     right: |
-      [Github Code Repo](https://github.com/rogerlm97)
-    background: "#636363"
+      © Copyright 2025 Roger López-Mañas. Except where otherwise noted, all text and images licensed CC-BY-NC 4.0.
+    background: "#004466"
   search: 
     location: navbar
     type: overlay
   navbar:
     right:
-      - href: https:/rogerlm97.github.io/
+      - href: index.html
         text: Home
       - href: publications/publications.qmd
         text: Publications
-      - href: interests/interests.qmd
-        text: My interests
-      - href: galleries/index.qmd
+      - href: projects.qmd
+        text: Projects
+      - href: posts.qmd
+        text: Posts
+      - href: gallery/index.qmd
         text: Gallery
       - icon: github
-        href: https://github.com/rogerlm97
+        href: https://github.com/rogerlm97/portfolio
       - icon: envelope-fill
-        href: mailto:///roger.lopez@ibb.csic.es
+        href: mailto://roger.lopez@ibb.csic.es
   
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
+    theme: default
+    link-external-newwindow: true
+    execute:
+      freeze: auto
     css: styles.css
-    toc: true
-
-
+    toc: false
+    code-link: true
+    code-fold: show
+    # code-tools: true
+    code-block-bg: "  #67839c"
+    code-block-border-left: " #67839c"
+    
+editor: visual
 

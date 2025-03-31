@@ -1,0 +1,50 @@
+---
+title: "Vegetation activity & anomaly explorer"
+description: "Developing user-friendly open source data explorer to check global vegetation based on Satellite Remote Sensing"
+date: "2025-01-10"
+image: GEE-2.png
+---
+
+::: {.callout-type collapse="false" style="note"}
+Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable areas hosting available resources. But, **Where do they go?**
+:::
+
+![Vegetaion anlysis.](../../gallery/images/GEE-2.png){fig-alt="Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable  areas hosting available resources. **But, where do they go?**"}
+
+::: {.callout-type collapse="false" style="note"}
+And moreover **What decides the direction of their moves?**
+:::
+
+This is a main question leading the work of many naturalists and biologists, and wonderful research has been conducted following biodiversity moves, looking for the multiple cues that help us disentangle the ecological cues of animal movement.
+
+Here, I want to present my latest contribution to this field: [The Vegetation Anomaly Viewer](https://phenology-cardui.projects.earthengine.app/view/anomaly). Based on previous [research](https://www.sciencedirect.com/science/article/pii/S0960982224006808), I developed an Eath Engine App accessible to the public, useful to:
+
+-   Observe spatial distribution of vegetation greenness across the globe.
+
+-   View the Time-series of vegetation greenness in a specific site, available from 2001 to present.
+
+-   Calculate the anomalies in vegetation productivity everywhere in the world for a long Time-series
+
+-   Check Satellite true-color images of the Earth Surface at a selected Time and Place
+
+## How does it work?
+
+The App takes advantage of **Google Earth Engine** huge power for accessing and processing Satellite Imagery:
+
+![Vegetaion anlysis.](../../gallery/images/GEE.code.png)
+
+The pipeline reads the User selections in the Graphic interface (*Year*, *Month*, *Vegetation Index*) and selects the correspondent images from **NASA MODIS** sensor from **Terra** and **Aqua** Satellites. This datasets provide World coverage Normalized Difference Vegetation Index (NDVI), a remote sensing based Index to retrieve the level of photosynthesizing activity of the Earth surface. Once selected, the code applies the anomaly *z-score* metric and displays the results in the map viewer.
+
+![User interface.](../../gallery/images/GEEApp.png)
+
+By clicking at any spot in the map, you can explore the Vegetation Index value through the whole time-series. By doing so, you can explore the seasonal rhythm of each habitat, the growth period, senescence begins, possible *drought*, *forest fire*, or other perturbations that have affected the surface productivity, and life living on it.
+
+## What can I use it for?
+
+Good point. Let's get back to the main question. **Where do animals move to?**
+
+As you might figure, food is one of the main reasons animals displace large distances. Vegetation resources are a key element for many herbivores, but also for carnivores feeding on them. While movements are timed to Earth rotation and solar incidence, regional disturbances can alter the seasonal average vegetation production, causing either a resource decay or a surplus, and cascading to animal biodiversity abundance with population bottlenecks or outbreaks.
+
+## Final Thoughts
+
+Wow! What started as a straightforward analysis to explore the Painted Lady butterfly (*Vanessa cardui* )migration, ended up in a nice App usable by everyone to keep track of Earth Primary Productiviy. I have used it myself during fieldwork, to select places to visit based on the Vegetation activity and seasonal anomaly. Although probably I have been the main user, i would love to know about your experience. Did you like it? What further options would you add?

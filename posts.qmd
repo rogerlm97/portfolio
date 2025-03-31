@@ -1,0 +1,16 @@
+---
+title: "Projects"
+listing:
+  contents: "projects"
+  sort: "date desc"
+  type: default
+  sort-ui: false #[date, date-modified]
+  feed:
+    title: Projects I am proud of and think you can take advantage of :)
+    description: Data visualization, GitHub repos and more
+page-layout: full
+---
+
+**Projects I am proud of and think you can take advantage from** 🤓 **Data visualization, GitHub repos and more** 🛰️💭
+
+------------------------------------------------------------------------

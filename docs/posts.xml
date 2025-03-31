@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Projects I am proud of and think you can take advantage of :)</title>
+<link>https://rogerlm97.github.io/portfolio/posts.html</link>
+<atom:link href="https://rogerlm97.github.io/portfolio/posts.xml" rel="self" type="application/rss+xml"/>
+<description>Data visualization, GitHub repos and more</description>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Fri, 14 Feb 2025 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>MODIS Cloud masking pipeline</title>
+  <link>https://rogerlm97.github.io/portfolio/projects/MODIS_filter/MODIS.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="callout-type" data-collapse="false" style="note">
+<p>Clouds are the main enemy in Earth Observation form space, specifically in the visible and infrared spectrum. In tropical latitudes, clouds can block the surface vision from Remote Sensing satellites during whole seasons, making the use of imagery useless. As blowing away the clouds of a whole continent would be a bit of an extreme solution, It is important to automatically flag all pixels contaminated by clouds to inform about the low quality of image and raise caution when using them for analysis.</p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rogerlm97.github.io/portfolio/gallery/images/cloud.png" class="img-fluid figure-img" alt="Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable  areas hosting available resources. **But, where do they go?**"></p>
+<figcaption>Saharan dust plume and clouds (12-02-2025).</figcaption>
+</figure>
+</div>
+<div class="callout-type" data-collapse="false" style="note">
+<p>Earth Observation products come with additional layers identifying about pixels flaws. I developed a straightforward cloud masking pipeline in <strong>R</strong> for <strong>MODIS Surface Reflectance</strong> product MOD09.</p>
+</div>
+<p>You can access the code in GitHub <a href="https://github.com/rogerlm97/MODIS-tools/blob/main/filter_MOD09_sur_refl_qc.R">Here</a>.</p>
+<section id="how-does-it-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-it-work">How does it work?</h2>
+<p>Fist of all, we will translate the atmospheric metadata, which is stored in binary format in the <strong>State QA</strong> band. Binary values must be transformed to decimal to read each flag. To do so, we will use the intToBits function:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Turn decimal to binary and separate values by row</span></span>
+<span id="cb1-2">State_bin <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.integer</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">intToBits</span>(State_int)),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nrow=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(State_int),<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">byrow=</span>T)[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>]</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">colnames</span>(State_bin) <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bit_"</span>,<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0"</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>),<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>))</span></code></pre></div>
+<p>After translating the bits, we assign indicated bits in the product documentation to the correspondent atmospheric state:</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#bit 0-1 cloud state</span></span>
+<span id="cb2-2">cloud <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> State_bin[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>),]</span>
+<span id="cb2-3">clear <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> State_bin[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),]</span>
+<span id="cb2-4">mixed <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> State_bin[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),]</span>
+<span id="cb2-5">not_set_assumed_clear <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> State_bin[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>),]</span>
+<span id="cb2-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#bit 2 cloud shadow</span></span>
+<span id="cb2-7">cloud_shadow <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> State_bin[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(State_bin[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>),]</span></code></pre></div>
+<p>Later, a mask is built including the values the user wants to mask out.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">integer_mask <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unique</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(integer_average_aerosol,</span>
+<span id="cb3-2">                        integer_high_aerosol,</span>
+<span id="cb3-3">                        integer_average_cirrus,</span>
+<span id="cb3-4">                        integer_small_cirrus,</span>
+<span id="cb3-5">                        integer_high_cirrus,</span>
+<span id="cb3-6">                        integer_cloud,</span>
+<span id="cb3-7">                        integer_mixed,</span>
+<span id="cb3-8">                        integer_cloud_shadow,</span>
+<span id="cb3-9">                        integer_fire,</span>
+<span id="cb3-10">                        integer_snow,</span>
+<span id="cb3-11">                        integer_snow_ice))</span></code></pre></div>
+<p>The stored values are evaluated with the raster image, masking out the selected flags.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> (r <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> rasters){</span>
+<span id="cb4-2">  ras_to_mask<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">raster</span>(r)</span>
+<span id="cb4-3">  values_to_mask <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unique</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">values</span>(ras_to_mask))[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unique</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">values</span>(ras_to_mask)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> integer_mask <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span>T)]</span>
+<span id="cb4-4">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> values_to_mask){</span>
+<span id="cb4-5">    ras_to_mask <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reclassify</span>(ras_to_mask,<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(i,i<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>))</span>
+<span id="cb4-6">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#cat(i,"\n")</span></span>
+<span id="cb4-7">  }</span></code></pre></div>
+<p>And the final <em>raster</em> can be saved and used for analysis.</p>
+<p><u><em>Notice the ability of the the source product algorithm to distinguish between snow and clouds.</em></u></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rogerlm97.github.io/portfolio/gallery/images/cloud_mask.png" class="img-fluid figure-img"></p>
+<figcaption>Masked Clouds</figcaption>
+</figure>
+</div>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>Satellite remote sensing provides a massive way for earth observation, spatial and temporal analysis. Development of algorithms, platforms and Software dedicated to the use of this frameworks has largely enriched its possibilities. Nevertheless, the user still has to process data in the proper way to avoid getting to flawed conclusions. The process can be challenging, although the huge GeoSpatial community, mainly working in OpenSource, is of great value when struggling with data processing.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rogerlm97.github.io/portfolio/projects/MODIS_filter/MODIS.html</guid>
+  <pubDate>Fri, 14 Feb 2025 23:00:00 GMT</pubDate>
+  <media:content url="https://rogerlm97.github.io/portfolio/gallery/images/cloud.png" medium="image" type="image/png" height="91" width="144"/>
+</item>
+<item>
+  <title>Vegetation activity &amp; anomaly explorer</title>
+  <link>https://rogerlm97.github.io/portfolio/projects/GEE/GEE.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="callout-type" data-collapse="false" style="note">
+<p>Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable areas hosting available resources. But, <strong>Where do they go?</strong></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rogerlm97.github.io/portfolio/gallery/images/GEE-2.png" class="img-fluid figure-img" alt="Each spring, billions of animals belonging to millions of species start moving in the pursuit of suitable  areas hosting available resources. **But, where do they go?**"></p>
+<figcaption>Vegetaion anlysis.</figcaption>
+</figure>
+</div>
+<div class="callout-type" data-collapse="false" style="note">
+<p>And moreover <strong>What decides the direction of their moves?</strong></p>
+</div>
+<p>This is a main question leading the work of many naturalists and biologists, and wonderful research has been conducted following biodiversity moves, looking for the multiple cues that help us disentangle the ecological cues of animal movement.</p>
+<p>Here, I want to present my latest contribution to this field: <a href="https://phenology-cardui.projects.earthengine.app/view/anomaly">The Vegetation Anomaly Viewer</a>. Based on previous <a href="https://www.sciencedirect.com/science/article/pii/S0960982224006808">research</a>, I developed an Eath Engine App accessible to the public, useful to:</p>
+<ul>
+<li><p>Observe spatial distribution of vegetation greenness across the globe.</p></li>
+<li><p>View the Time-series of vegetation greenness in a specific site, available from 2001 to present.</p></li>
+<li><p>Calculate the anomalies in vegetation productivity everywhere in the world for a long Time-series</p></li>
+<li><p>Check Satellite true-color images of the Earth Surface at a selected Time and Place</p></li>
+</ul>
+<section id="how-does-it-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-it-work">How does it work?</h2>
+<p>The App takes advantage of <strong>Google Earth Engine</strong> huge power for accessing and processing Satellite Imagery:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rogerlm97.github.io/portfolio/gallery/images/GEE.code.png" class="img-fluid figure-img"></p>
+<figcaption>Vegetaion anlysis.</figcaption>
+</figure>
+</div>
+<p>The pipeline reads the User selections in the Graphic interface (<em>Year</em>, <em>Month</em>, <em>Vegetation Index</em>) and selects the correspondent images from <strong>NASA MODIS</strong> sensor from <strong>Terra</strong> and <strong>Aqua</strong> Satellites. This datasets provide World coverage Normalized Difference Vegetation Index (NDVI), a remote sensing based Index to retrieve the level of photosynthesizing activity of the Earth surface. Once selected, the code applies the anomaly <em>z-score</em> metric and displays the results in the map viewer.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://rogerlm97.github.io/portfolio/gallery/images/GEEApp.png" class="img-fluid figure-img"></p>
+<figcaption>User interface.</figcaption>
+</figure>
+</div>
+<p>By clicking at any spot in the map, you can explore the Vegetation Index value through the whole time-series. By doing so, you can explore the seasonal rhythm of each habitat, the growth period, senescence begins, possible <em>drought</em>, <em>forest fire</em>, or other perturbations that have affected the surface productivity, and life living on it.</p>
+</section>
+<section id="what-can-i-use-it-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-can-i-use-it-for">What can I use it for?</h2>
+<p>Good point. Let’s get back to the main question. <strong>Where do animals move to?</strong></p>
+<p>As you might figure, food is one of the main reasons animals displace large distances. Vegetation resources are a key element for many herbivores, but also for carnivores feeding on them. While movements are timed to Earth rotation and solar incidence, regional disturbances can alter the seasonal average vegetation production, causing either a resource decay or a surplus, and cascading to animal biodiversity abundance with population bottlenecks or outbreaks.</p>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>Wow! What started as a straightforward analysis to explore the Painted Lady butterfly (<em>Vanessa cardui</em> )migration, ended up in a nice App usable by everyone to keep track of Earth Primary Productiviy. I have used it myself during fieldwork, to select places to visit based on the Vegetation activity and seasonal anomaly. Although probably I have been the main user, i would love to know about your experience. Did you like it? What further options would you add?</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rogerlm97.github.io/portfolio/projects/GEE/GEE.html</guid>
+  <pubDate>Thu, 09 Jan 2025 23:00:00 GMT</pubDate>
+  <media:content url="https://rogerlm97.github.io/portfolio/projects/GEE/GEE-2.png" medium="image" type="image/png" height="114" width="144"/>
+</item>
+</channel>
+</rss>
